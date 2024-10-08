@@ -1,0 +1,93 @@
+{% extends "Home/base.html" %}
+{% load static %}
+{% block title %}Cyber Programmer - Html,Css and Js {% endblock %}
+{% block css %}
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+{%endblock %}
+{% block body %}
+
+<div class="container-fluid my-3">
+    <hr />
+    <h3 class="text-center text-success">Online Compiler</h3>
+    <hr />
+    <div class="row">
+        <div class="col-md-6 col-sm-12">
+            <div class="card" style="min-height: 90vh">
+                <div class="card-header">
+                    <div class="float-left">
+                        <h3 class="text-info">Code Editor</h3>
+                    </div>
+                    <div class="float-right">
+                        <div class="form-group">
+                            <input type="button" value="Clear" id="Clear" class="btn btn-primary btn-sm" />
+                            <input type="button" value="Run Code" id="run" class="btn btn-success btn-sm" />
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="myEditor" style="min-height: 90vh"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="float-left">
+                        <h3 class="text-info">Output Screen</h3>
+                    </div>
+                    <div class="float-right">
+                        <div class="form-group">
+                            <input type="button" value="Download Code" class="btn btn-danger btn-sm float-right"
+                                onclick="save()" />
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body" id="output" style="min-height: 98vh"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.14/ace.js"></script>
+
+<script src="{% static 'Home/script.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        $(document).on("click", "#run", function () {
+            var code = e.getValue();
+            if (e.getValue == "") {
+                alert("Nothing to run...");
+            } else {
+                $("#output").html(code);
+            }
+        });
+        $(document).on("click", "#Clear", function () {
+            e.setValue("");
+        });
+    });
+
+    function save() {
+        var code = e.getValue();
+        code = code.replace(/\n/g, "\r\n");
+        var blob = new Blob([code], { type: "text/plain" });
+        var anchor = document.createElement("a");
+        anchor.download = "index.html";
+        anchor.href = window.URL.createObjectURL(blob);
+        anchor.target = "blank";
+        anchor.style.display = "none";
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+    }
+</script>
+{% endblock %}

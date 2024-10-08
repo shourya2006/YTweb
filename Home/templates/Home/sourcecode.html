@@ -1,0 +1,30 @@
+{% extends "Home/base.html" %}
+{% load static %}
+{% block title %}Cyber Programmer - Source-Code {% endblock %}
+{% block css %}{% endblock %}
+{% block body %}
+
+<div class="container">
+    <h2 class="text-center text-decoration-underline my-4">Get Source Code of All Videos</h2>
+    <div class="row">
+        {% for i in allvideos %}
+        <div class="col-lg-4 mb-6 my-2">
+            <div class="card">
+                <img class="card-img-top" src="/media/{{i.image}}" alt="">
+
+                <div class="card-body">
+                    <h5 class="card-title">{{i.video_name|slice:":36"}}...</h5>
+                    <p class="card-text">
+                       {{i.show_desc}}
+                    </p>
+
+                    <a href="/video/{{i.id}}" class="btn btn-outline-danger btn-sm">
+                        Get Source-code
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

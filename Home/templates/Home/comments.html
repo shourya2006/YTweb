@@ -1,0 +1,76 @@
+{% load static %}
+{% if request.user.is_authenticated %}
+<div class="container">
+    <h3>({{comments.count}}) Comment{{comments|pluralize}}</h3>
+    <hr>
+    <form method="post" action="./{{video.id}}" class="comment-form">{% csrf_token %}
+
+        {{comment_form.as_p}}
+        <button type="submit" class="btn btn-outline-success">Submit</button>
+    </form>
+    <hr>
+    {% for comment in comments %}
+    <figure>
+        <blockquote class="blockquote" style="display: flex;align-items: center;">
+            <img src="{% static 'Home/download.png' %}" style="width: 5%;border-radius: 50%;margin: 5px !important;">
+            <p>{{comment.content}}</p>
+        </blockquote>
+        <figcaption class="blockquote-footer" style="margin-left: 2rem;">
+            {{comment.user|capfirst}}<small class="mx-2">
+                <p style="display: inline;
+                font-weight: bold;
+                cursor: pointer;" name="button" class="reply-btn hover:">Reply</p>
+            </small>
+        </figcaption>
+    </figure>
+    <div class="replied-comments" style="display: none;">
+        {% for reply in comment.replies.all %}
+        <figure class="reply" style="margin-left: 5rem;">
+            <blockquote class="blockquote" style="display: flex;align-items: center;">
+                <img src="{% static 'Home/download.png' %}"
+                    style="width: 4%;border-radius: 50%;margin: 5px !important;">
+                <small style="margin-top: 13px;">
+                    <p>{{reply.content}}</p>
+                </small>
+            </blockquote>
+            <figcaption class="blockquote-footer" style="margin-left: 2rem;">
+                <small>{{reply.user|capfirst}}</small>
+            </figcaption>
+        </figure>
+        {% endfor %}
+        <div class="replied-comment container mt-2" style="margin-left: 4rem;">
+            <div class="form-group">
+
+                <form method="post" class="footer_bacha reply-form" action="./{{video.id}}" style="width: 23rem;">
+                    {%csrf_token %}
+                    <input type="hidden" name="comment_id" value="{{comment.id}}">
+                    {{comment_form.as_p}}
+                    <button type="submit" class="btn btn-outline-success">Reply</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class=" main-comment-section container">
+    <!-- <h5>Please Login/SignUp to add Comments...</h5> -->
+    <div class="alert alert-warning">
+        <strong>Hello User!</strong> Please Login/SignUp to add Comments...
+    </div>
+
+    <h3>({{comments.count}}) Comment{{comments|pluralize}}</h3>
+    <hr>
+    {% for comment in comments %}
+    <figure>
+        <blockquote class="blockquote" style="display: flex;align-items: center;">
+            <img src="{% static 'Home/download.png' %}" style="width: 5%;border-radius: 50%;margin: 5px !important;">
+            <p>{{comment.content}}</p>
+        </blockquote>
+        <figcaption class="blockquote-footer" style="margin-left: 2rem;">
+            {{comment.user|capfirst}}
+        </figcaption>
+    </figure>
+    {% endfor %}
+</div>
+{% endif %}

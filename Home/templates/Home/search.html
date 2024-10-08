@@ -1,0 +1,59 @@
+{% extends "Home/base.html" %}
+{% load static %}
+{% block title %}Cyber Programmer - Home {% endblock %}
+
+{% block body %}
+{% if searched %}
+{% if heightvideos != 0 %}
+{% if heightvideos == 1 %}
+{% block css %} 
+<style>
+    .height{
+        height: 75vh !important;
+        display: flex;
+        /* justify-content: center !important;
+        align-items: center; */
+    }
+</style>
+{% endblock %}
+{% endif %}
+<h1 class="my-4">Search Results for {{searched}}...</h1>
+<div class="container height">
+    <div class="row">
+        {% for i in videos %}
+        <div class="col-lg-4 mb-6 my-2">
+            <div class="card">
+                <img class="card-img-top" src="/media/{{i.image}}" alt="">
+
+                <div class="card-body">
+                    <h5 class="card-title">{{i.video_name|slice:":36"}}...</h5>
+                    <p class="card-text">
+                        {{i.show_desc}}
+                    </p>
+
+                    <a href="/video/{{i.id}}" class="btn btn-outline-danger btn-sm">
+                        Get Source-code
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% else %}
+<div class="center" style="display: flex; justify-content:center;align-items: center; height: 80vh;">
+
+    <h1>There are no search results for {{searched}}...</h1>
+
+</div>
+{% endif %}
+{% else %}
+
+
+<div class="center" style="display: flex; justify-content:center;align-items: center; height: 80vh;">
+
+    <h1>There Was an error while searching... Please try again</h1>
+
+</div>
+{% endif %}
+{% endblock %}

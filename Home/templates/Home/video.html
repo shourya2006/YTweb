@@ -1,0 +1,247 @@
+{% extends "Home/base.html" %} {% block title %} {{video.video_name}} - Cyber Programmer{% endblock %}
+{% load static %}
+{% block css %}
+<style>
+    @media only screen and (max-width: 767px) {
+        .dis {
+            display: none !important;
+        }
+
+        iframe {
+            height: 290px !important;
+        }
+
+    }
+
+    @media only screen and (max-width: 1199px) {
+        iframe {
+            height: 315px;
+        }
+    }
+
+    @media only screen and (max-width: 985px) {
+        iframe {
+            height: 178px;
+        }
+    }
+
+    /*
+ CSS for the main interaction
+*/
+    .tabset>input[type="radio"] {
+        position: absolute;
+        left: -200vw;
+    }
+
+    .tabset .tab-panel {
+        display: none;
+    }
+
+    .tabset>input:first-child:checked~.tab-panels>.tab-panel:first-child,
+    .tabset>input:nth-child(3):checked~.tab-panels>.tab-panel:nth-child(2),
+    .tabset>input:nth-child(5):checked~.tab-panels>.tab-panel:nth-child(3),
+    .tabset>input:nth-child(7):checked~.tab-panels>.tab-panel:nth-child(4),
+    .tabset>input:nth-child(9):checked~.tab-panels>.tab-panel:nth-child(5),
+    .tabset>input:nth-child(11):checked~.tab-panels>.tab-panel:nth-child(6) {
+        display: block;
+    }
+
+    /*
+ Styling
+*/
+    body {
+        font: 16px/1.5em "Overpass", "Open Sans", Helvetica, sans-serif;
+        color: #333;
+        font-weight: 300;
+    }
+
+    .tabset>label {
+        position: relative;
+        display: inline-block;
+        padding: 15px 15px 25px;
+        border: 1px solid transparent;
+        border-bottom: 0;
+        cursor: pointer;
+        font-weight: 600;
+    }
+
+    .tabset>label::after {
+        content: "";
+        position: absolute;
+        left: 15px;
+        bottom: 10px;
+        width: 22px;
+        height: 4px;
+        background: #8d8d8d;
+    }
+
+    .tabset>label:hover,
+    .tabset>input:focus+label {
+        color: #06c;
+    }
+
+    .tabset>label:hover::after,
+    .tabset>input:focus+label::after,
+    .tabset>input:checked+label::after {
+        background: #06c;
+    }
+
+    .tabset>input:checked+label {
+        border-color: #ccc;
+        border-bottom: 1px solid #fff;
+        margin-bottom: -1px;
+    }
+
+    .tab-panel {
+        padding: 30px 0;
+        border-top: 1px solid #ccc;
+    }
+
+    /*
+ Demo purposes only
+*/
+    *,
+    *:before,
+    *:after {
+        box-sizing: border-box;
+    }
+
+
+    .tabset {
+        max-width: 65em;
+    }
+
+    @media only screen and (max-width: 615px) {
+        .footer_bacha {
+            width: 100% !important;
+        }
+
+        .reply {
+            margin-left: 2rem !important;
+        }
+
+        .replied-comment {
+            margin-left: 1rem !important;
+        }
+    }
+
+    .reply-btn:hover {
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}
+{% block body %}
+<link rel="stylesheet" href="{% static 'Home/prism.css' %}">
+<script src="{% static 'Home/prism.js' %}"></script>
+<div class="row">
+    <iframe width="100%" height="415" src="{{video.video}}" title="YouTube video player" frameborder="0"
+        allow="accelerometer; autoplay;clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
+        class="col my-2"></iframe>
+    <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white overflow-auto dis"
+        style="width: 380px; max-height: 27rem">
+        <span class="fs-5 fw-semibold my-2">Recomended Videos :</span>
+        {% for videos in allvideos %}
+        {% if video.video != videos.video%}
+        <div class="list-group border-bottom scrollarea">
+            <a href="/video/{{videos.id}}" class="list-group-item list-group-item-action py-3 lh-tight" style="    margin-bottom: 5px;
+            box-shadow: rgb(0 0 0 / 24%) 0px 3px 8px;">
+                <div class="d-flex w-100 align-items-center justify-content-between">
+                    <strong class="mb-1">{{videos.video_name}}</strong>
+                    <small style="position: absolute;
+                    right: 9px;
+                    bottom: 1px;">{{videos.pub_date | date:"l" | slice:":3"}}</small>
+                </div>
+                <div class="col-10 mb-1 small">
+                    {{videos.show_desc|safe}}...
+                </div>
+            </a>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+
+</div>
+<div class="tabset">
+    <!-- Tab 1 -->
+    <input type="radio" name="tabset" id="tab1" aria-controls="marzen" checked>
+    <label for="tab1">Overview</label>
+    <!-- Tab 2 -->
+    <input type="radio" name="tabset" id="tab2" aria-controls="rauchbier">
+    <label for="tab2">Q & A</label>
+    <!-- Tab 3 -->
+    <input type="radio" name="tabset" id="tab3" aria-controls="dunkles">
+    <label for="tab3">Downloads</label>
+    <input type="radio" name="tabset" id="tab4" aria-controls="annoucements">
+    <label for="tab4">Announcements</label>
+
+    <div class="tab-panels">
+        <section id="marzen" class="tab-panel">
+            <h2 style="text-decoration: underline;">{{video.video_name}}</h2>
+            {{video.desc|safe}}
+        </section>
+        <section id="rauchbier" class="tab-panel main-comment-section">
+            {% include 'Home/comments.html'%}
+        </section>
+        <section id="dunkles" class="tab-panel">
+            {{video.download_links|safe}}
+        </section>
+        <section id="annoucements" class="tab-panel">
+            <p style="font-size: 1.8rem;">No Announcements as of now!</p>
+        </section>
+    </div>
+
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script>
+    $('.reply-btn').click(function () {
+        $(this).parent().parent().parent().next('.replied-comments').fadeToggle()
+    })
+
+
+
+    $(document).on('submit', '.comment-form', function (event) {
+        event.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function (response) {
+                $('.main-comment-section').html(response['form']);
+                $('textarea').val('');
+                $('.reply-btn').click(function () {
+                    $(this).parent().parent().parent().next('.replied-comments').fadeToggle();
+                    $('textarea').val('');
+                })
+            },
+            error: function (rs, e) {
+                console.log(rs.responseText);
+            }
+        })
+    });
+
+
+
+    $(document).on('submit', '.reply-form', function (event) {
+        event.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function (response) {
+                $('.main-comment-section').html(response['form']);
+                $('textarea').val('');
+                $('.reply-btn').click(function () {
+                    $(this).parent().parent().parent().next('.replied-comments').fadeToggle();
+                    $('textarea').val('');
+                })
+            },
+            error: function (rs, e) {
+                console.log(rs.responseText);
+            }
+        })
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,164 @@
+{% extends "Home/base.html" %}
+
+{% block title %}Cyber Programmer - Home {% endblock %}
+{% block css %}
+<style>
+    .img {
+        width: 100%;
+    }
+
+    .w-full {
+        position: relative;
+        left: -12px;
+        width: 108%;
+    }
+
+    .direction {
+        align-items: center !important;
+        justify-content: center;
+    }
+
+    @media only screen and (max-width: 767px) {
+        #remove {
+            display: none;
+        }
+
+        .block_hat {
+            display: inline !important;
+        }
+
+        .text-centerkar {
+            text-align: center !important;
+        }
+
+        .direction {
+            flex-direction: column !important;
+            align-items: center !important;
+        }
+        .m-bhi{
+            margin-top: 2rem;
+        }
+    }
+
+    @media only screen and (max-width: 1191px) {
+        .w-full {
+            width: 110%;
+        }
+    }
+
+    @media only screen and (max-width: 432px) {
+        .block_hat {
+            display: block !important;
+        }
+    }
+
+</style>
+
+{% endblock %}
+{% block body %}
+<div class="row my-5" id="row">
+    <div class="col text-centerkar">
+        <h1>Welcome to <span class="d-block block_hat" style="color: rgb(54, 113, 223);">Cyber Programmer</span></h1>
+        <p>Confused on which course to take? I have got you covered. Browse courses and find out the best course for
+            you. Its free! Cyber Programmer is my attempt to teach basics and those coding techniques to people in short
+            time which took me ages to learn.</p>
+        <a href="/sourcecode/" style="text-decoration: none;"><button class="btn btn-dark d-inline my-2">Get Source
+                Code</button></a>
+        <!-- <a href="/practice" ><button class="btn btn-secondary d-inline my-2 ">Practice Online</button></a> -->
+        <div class="d-inline my-2">
+            <a class="btn btn-secondary d-inline my-2 dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" style="text-decoration: none;">
+              Practice Online
+            </a>
+          
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <li><a class="dropdown-item" href="/practice/htmlcssjs">Html, Css and JS</a></li>
+              <li><a class="dropdown-item" href="/practice/python">Python</a></li>
+              <!-- <li><a class="dropdown-item" href="#">Something else here</a></li> -->
+            </ul>
+          </div>
+                <!-- <h2>hello, {{user}}</h2> -->
+
+    </div>
+    <div class="col" id="remove">
+        {% load static %}
+        <img src="{% static 'Home/home.jpg' %}" class="rounded img" alt="img">
+    </div>
+
+    <div class="container my-5">
+        <h2 class="text-center">Recommended Videos</h2>
+        <div class="row my-5 direction">
+            {% for i in allvid %}
+            <div class="card col rounded mx-3 m-bhi" style="width: 18rem;">
+                <img src="/media/{{i.image}}" class="card-img-top w-full" alt="img">
+                <div class="card-body">
+                    <h5 class="card-title">{{i.video_name}}</h5>
+                    <p class="card-text">{{i.show_desc}}...</p>
+                    <a href="/video/{{i.id}}" class="btn btn-outline-danger">Start Watching</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="container">
+        <h2 class="text-center mb-5">Motivational Quotes</h2>
+        <div class="row direction">
+            <div class="card mx-2 my-2" style="width: 20rem; background-color: #34b4ff; height: 13.8rem;
+            color: white;">
+                <div class="card-body">
+                    <i class="fa fa-quote-left"
+                        style="font-size: 22px;opacity: 0.6;top: 0;position: absolute;left: 0;padding: 5px;"></i>
+                    <figure style="display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    height: 100%;">
+                        <blockquote class="blockquote">
+                            <p class="card-text">Any fool can write code that a computer can understand. Good
+                                programmers write code that humans can understand.</p>
+                        </blockquote>
+                        <figcaption class="blockquote-footer card-text">
+                            <cite title="Source Title">Martin Fowler</cite>
+                        </figcaption>
+                    </figure>
+                </div>
+            </div>
+            <div class="card mx-2 my-2" style="width: 20rem; background-color: #34b4ff;
+            color: white;height: 13.8rem;">
+                <div class="card-body">
+                    <i class="fa fa-quote-left"
+                        style="font-size: 22px;opacity: 0.6;top: 0;position: absolute;left: 0;padding: 5px;"></i>
+                    <figure style="display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    height: 100%;">
+                        <blockquote class="blockquote">
+                            <p class="card-text">Programming isn't about what you know; it's about what you can figure
+                                out.</p>
+                        </blockquote>
+                        <figcaption class="blockquote-footer card-text">
+                            <cite title="Source Title">Chris Pine</cite>
+                        </figcaption>
+                    </figure>
+                </div>
+            </div>
+            <div class="card mx-2 my-2" style="width: 20rem; background-color: #34b4ff;
+            color: white;height: 13.8rem; align-items: center;">
+                <div class="card-body">
+                    <i class="fa fa-quote-left"
+                        style="font-size: 22px;opacity: 0.6;top: 0;position: absolute;left: 0;padding: 5px;"></i>
+                    <figuren style="display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    height: 100%;">
+                        <blockquote class="blockquote">
+                            <p class="card-text">The only way to learn a new programming language is by writing programs
+                                in it.</p>
+                        </blockquote>
+                        <figcaption class="blockquote-footer card-text">
+                            <cite title="Source Title">Martin Fowler</cite>
+                        </figcaption>
+                        </figure>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
